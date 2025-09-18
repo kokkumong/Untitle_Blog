@@ -1,5 +1,8 @@
 package com.mysite.demo.adapter.out.persistence;
 
+import com.mysite.demo.adapter.out.persistence.entity.MemberPersistenceEntity;
+import com.mysite.demo.adapter.out.persistence.repository.MemberJpaRepository;
+import com.mysite.demo.adapter.out.persistence.mapper.MemberMapper;
 import com.mysite.demo.domain.model.Member;
 import com.mysite.demo.domain.port.out.MemberPort;
 import java.util.Optional;
