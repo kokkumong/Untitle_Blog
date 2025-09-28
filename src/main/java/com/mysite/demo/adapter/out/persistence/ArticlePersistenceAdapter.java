@@ -7,6 +7,7 @@ import com.mysite.demo.adapter.out.persistence.repository.MemberJpaRepository;
 import com.mysite.demo.adapter.out.persistence.mapper.ArticleMapper;
 import com.mysite.demo.domain.model.Article;
 import com.mysite.demo.domain.port.out.ArticlePort;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -33,5 +34,11 @@ public class ArticlePersistenceAdapter implements ArticlePort { // <- ArticlePor
 
         // 4. 저장된 엔티티를 다시 도메인 모델로 변환하여 반환합니다.
         return articleMapper.toDomain(savedEntity);
+    }
+
+    @Override
+    public Optional<Article> findById(Long articleId) {
+        return articleJpaRepository.findById(articleId)
+                .map(articleMapper::toDomain);
     }
 }
