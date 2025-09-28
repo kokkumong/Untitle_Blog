@@ -1,6 +1,6 @@
 package com.mysite.demo.domain.port.in;
 
-import com.example.demo.domain.model.Article;
+import com.mysite.demo.domain.model.Article;
 
 public interface UpdateArticleUseCase {
 
