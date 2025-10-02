@@ -2,14 +2,17 @@ package com.mysite.demo.adapter.in.web;
 
 import com.mysite.demo.adapter.in.web.dto.ArticleResponse;
 import com.mysite.demo.adapter.in.web.dto.CreateArticleRequest;
+import com.mysite.demo.adapter.in.web.dto.DeleteArticleRequest;
 import com.mysite.demo.adapter.in.web.dto.UpdateArticleRequest;
 import com.mysite.demo.domain.model.Article;
 import com.mysite.demo.domain.port.in.CreateArticleUseCase;
+import com.mysite.demo.domain.port.in.DeleteArticleUseCase;
 import com.mysite.demo.domain.port.in.UpdateArticleUseCase;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -22,8 +25,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ArticleController {
 
-    private final CreateArticleUseCase createArticleUseCase; // <- UseCase 의존성만 남김
+    private final CreateArticleUseCase createArticleUseCase;
     private final UpdateArticleUseCase updateArticleUseCase;
+    private final DeleteArticleUseCase deleteArticleUseCase;
 
     @PostMapping
     public ResponseEntity<ArticleResponse> createArticle(@Valid @RequestBody CreateArticleRequest request) {
@@ -64,5 +68,21 @@ public class ArticleController {
         );
 
         return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{articleId}")
+    public ResponseEntity<Void> deleteArticle(
+            @PathVariable Long articleId,
+            @Valid @RequestBody DeleteArticleRequest request
+    ) {
+        var command = new DeleteArticleUseCase.DeleteArticleCommand(
+                articleId,
+                request.email(),
+                request.password()
+        );
+
+        deleteArticleUseCase.deleteArticle(command);
+
+        return ResponseEntity.noContent().build();
     }
 }
