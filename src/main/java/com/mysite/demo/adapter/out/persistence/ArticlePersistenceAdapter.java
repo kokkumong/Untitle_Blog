@@ -41,4 +41,8 @@ public class ArticlePersistenceAdapter implements ArticlePort { // <- ArticlePor
         return articleJpaRepository.findById(articleId)
                 .map(articleMapper::toDomain);
     }
+
+    public void deleteById(Long articleId) {
+        articleJpaRepository.deleteById(articleId);
+    }
 }
